@@ -2,6 +2,17 @@ if(!localStorage.getItem("listItems")){
     //init
     localStorage.setItem("listItems",'[]');
 }
+function updateLocal(func,arg){
+    a = window.localStorage.getItem("listItems");
+    b = JSON.parse(a);
+    if(typeof arg == 'undefined')
+	c = func(b);
+    else
+	c = func(b,arg);
+    d = JSON.stringify(c);
+    window.localStorage.setItem("listItems",d);
+    //This could be put all on one line, but then it'd be rediculously long.
+}
 $(document).ready(function(){
     console.log('w00t w00t');
     function update(idx,checked,itemName){
@@ -28,15 +39,17 @@ $(document).ready(function(){
 	if(!itemName) itemName = $("#add-input").val();
 	c.find(".item-desc").text(itemName);
 	b = c.find(".bigcheck");
-	b.on('mousedown', null, b, function(e){
+	b.on('mousedown touchstart', null, b, function(e){
 	    b = e.data;
 	    console.log(b,b.data());
 	    if( typeof b.data("checked") === 'undefined' )
 		b.data("checked",false);
-	    if(!b.data("checked")){
+	    if(b.data("checked")){
+		b.children("img").attr("src","checked-inset.png");
+	    }else{
 		b.children("img").attr("src","inset.png");
 	    }
-	}).on('mouseup', null, b, function(e){
+	}).on('mouseup touchend', null, b, function(e){
 	    b = e.data;
 	    isChk = !b.data("checked")
 	    b.data("checked",isChk);
@@ -45,7 +58,28 @@ $(document).ready(function(){
 	    b.children("img").attr("src",src);
 	    update(b.parents("tr:first"),isChk);
 	});
-	if(checked) b.children('img').attr("src","checked.png");
+	c.find(".remove").on('mousedown touchstart', function(e){
+	    $(e.target).attr("src","remove-inset.png");
+	}).on('mouseup touchend focusout mouseout blur', function(e){
+	    $(e.target).attr("src","remove.png");
+	}).on('mouseup touchend', function(e){
+	    row = $(e.target).parents("tr:first");
+	    updateLocal(function(l,row){
+		l.splice(row.data("index"),1);
+		return l;
+	    },row);
+	    console.log(row,row.nextUntil);
+	    //Since we're removing this, all the indexes need to be decremented.
+	    row.nextUntil('#add-item-row').each(function(i){ //I love jquery
+		$(this).data('index',$(this).data('index')-1);
+	    });
+	    row.remove();
+	});
+	    
+	if(checked){
+	    b.children('img').attr("src","checked.png");
+	    b.data("checked",true);
+	}
 	if(!fromLocal){
 	    l = JSON.parse(localStorage.getItem("listItems"));
 	    l.push([checked,itemName]);
