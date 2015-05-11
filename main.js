@@ -49,7 +49,7 @@ $(document).ready(function(){
 	    }else{
 		b.children("img").attr("src","inset.png");
 	    }
-	}).on('mouseup touchend', null, b, function(e){
+	}).on('mouseup', null, b, function(e){
 	    b = e.data;
 	    isChk = !b.data("checked")
 	    b.data("checked",isChk);
@@ -60,9 +60,9 @@ $(document).ready(function(){
 	});
 	c.find(".remove").on('mousedown touchstart', function(e){
 	    $(e.target).attr("src","remove-inset.png");
-	}).on('mouseup touchend focusout mouseout blur', function(e){
+	}).on('mouseup focusout mouseout blur', function(e){
 	    $(e.target).attr("src","remove.png");
-	}).on('mouseup touchend', function(e){
+	}).on('mouseup', function(e){
 	    row = $(e.target).parents("tr:first");
 	    updateLocal(function(l,row){
 		l.splice(row.data("index"),1);
@@ -97,7 +97,7 @@ $(document).ready(function(){
 	if(e.which == 13)
 	    addItem();
     });
-    $("#add-button").on('mousedown', function(e){
+    $("#add-button").on('mousedown touchstart', function(e){
 	$(e.target).attr("src","add-box-inset.png");
     }).on('mouseup',function(e){
 	addItem();
