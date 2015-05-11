@@ -11,15 +11,24 @@
   <body>
     <div class="container" role="main">
       <h3>Shelist</h3>
-      <table class="table table-condensed">
+      <table class="table table-striped">
 	<tbody>
-	  <tr style="visibility:collapse" id="template-row">
-	    <td><div class="bigcheck"><img src="unchecked.png" width="45" alt="checkbox" /></div></td>
+	  <tr style="visibility:collapse" id="template-row" data-index="0">
+	    <td>
+	      <div class="bigcheck">
+		<img src="unchecked.png" width="45" alt="checkbox" />
+	      </div>
+	    </td>
 	    <td><span class="h3 item-desc">3 jugs of milk</span></td>
+	    <td><img src="remove.png" width="45" alt="remove" class="remove"/></td>
 	  </tr>
 	  <tr id="add-item-row">
-	    <td><img id="add-button" src="add-box.png" width="45"/></td>
-	    <td><input type="text" id="add-input" style="width:100%;font-size:24px;"/></td>
+	    <td><img id="add-button" src="add-box.png" width="45" alt="add" /></td>
+	    <td>
+	      <input type="text" id="add-input" value="" style="width:100%;font-size:24px;"/>
+	    </td>
+	    <td></td>
+	  </tr>
 	</tbody>
       </table>
     </div>
